@@ -1,75 +1,8 @@
-// import 'dart:io';
-
-// import 'package:flutter/material.dart';
-// import 'package:image_picker/image_picker.dart';
-// import 'package:tflite/tflite.dart';
-
-// class Tflite extends StatefulWidget {
-//   const Tflite({super.key});
-
-//   @override
-//   State<Tflite> createState() => _TfliteState();
-// }
-
-// class _TfliteState extends State<Tflite> {
-//   @override
-//   void initState() {
-//     // TODO: implement initState
-//     super.initState();
-//     loadModel();
-//   }
-
-//   Future loadModel() async {
-//     await Tflite.close();
-//     String res;
-//     res = await Tflite.loadModel(model: "assets/tf_lite_model.tflite");
-//     print("model loading status :$res");
-//   }
-//   Future imageClassification(File Image) async {
-//     var recognitions = await Tflite.runModelOnImage(
-//   path: Image.path,   // required
-//   imageMean: 0.0,   // defaults to 117.0
-//   imageStd: 255.0,  // defaults to 1.0
-//   numResults: 2,    // defaults to 5
-//   threshold: 0.2,   // defaults to 0.1
-//   asynch: true      // defaults to true
-// );
-//   }
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text("imageClassification"),
-//       ),
-//       body: ListView(
-//         children: [],
-//       ),
-//       floatingActionButton: FloatingActionButton(
-//         onPressed: pickImage,
-//         tooltip: "pick Image",
-//         child: Icon(Icons.image),
-//       ),
-//     );
-//   }
-
-//   Future pickImage() async {
-//     final ImagePicker _picker = ImagePicker();
-//     final XFile? pickedFile = await _picker.pickImage(
-//       source: ImageSource.gallery,
-//     );
-//     File Image = File(pickedFile!.path);
-//     imageClassification()
-//   }
-// }
-
-
-
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:tflite/tflite.dart';
+import 'package:tflite_v2/tflite_v2.dart';
 
 class TfliteModel extends StatefulWidget {
   const TfliteModel({Key? key}) : super(key: key);
@@ -108,8 +41,6 @@ class _TfliteModelState extends State<TfliteModel> {
     );
     setState(() {
       _results=recognitions!;
-      _image=image;
-      imageSelect=true;
     });
   }
   @override
@@ -146,7 +77,6 @@ class _TfliteModelState extends State<TfliteModel> {
                   ),
                 );
               }).toList():[],
-
             ),
           )
         ],
@@ -164,7 +94,11 @@ class _TfliteModelState extends State<TfliteModel> {
     final XFile? pickedFile = await _picker.pickImage(
       source: ImageSource.gallery,
     );
-    File image=File(pickedFile!.path);
-    imageClassification(image);
+      File image = File(pickedFile!.path);
+    setState(() {
+      print("image selected");
+      _image=image;
+      imageSelect=true;
+    });
   }
 }
