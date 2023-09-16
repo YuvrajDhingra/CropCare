@@ -41,6 +41,8 @@ class _TfliteModelState extends State<TfliteModel> {
     );
     setState(() {
       _results=recognitions!;
+      _image=image;
+      imageSelect=true;
     });
   }
   @override
@@ -95,10 +97,5 @@ class _TfliteModelState extends State<TfliteModel> {
       source: ImageSource.gallery,
     );
       File image = File(pickedFile!.path);
-    setState(() {
-      print("image selected");
-      _image=image;
-      imageSelect=true;
-    });
   }
 }
